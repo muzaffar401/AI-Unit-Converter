@@ -16,30 +16,30 @@ def get_conversion_result(query):
         return f"Error: {str(e)}"
 
 def main():
-    st.set_page_config(page_title="🔄 Universal Unit Converter", page_icon="📏", layout="wide")
+    st.set_page_config(page_title="🔄 Smart Unit Converter", page_icon="📏", layout="wide")
     
-    st.title("🔄 Smart Unit Converter")
-    st.subheader("Convert Length, Weight, Temperature, Time, Speed, and Data Units")
+    st.title("🚀 Smart Unit Converter")
+    st.markdown("### Convert Length, Weight, Temperature, Time, Speed, and Data Units with Ease!")
     
     with st.sidebar:
-        st.header("Settings")
-        reset_button = st.button("Reset All")
+        st.header("⚙️ Settings")
+        reset_button = st.button("🔄 Reset All")
         if reset_button:
             st.session_state.clear()
         
-        st.header("Gemini AI Conversion")
-        user_query = st.text_input("Enter your conversion query (e.g., '10 km to miles'):")
-        if st.button("Ask Gemini"):
+        st.header("🤖 Gemini AI Conversion")
+        user_query = st.text_input("💬 Enter your conversion query (e.g., '10 km to miles'):")
+        if st.button("✨ Ask Gemini"):
             if user_query:
                 result = get_conversion_result(user_query)
                 if any(unit in user_query.lower() for unit in ["km", "miles", "kg", "grams", "celsius", "fahrenheit"]):
-                    st.success(f"Result: {result}")
+                    st.success(f"✅ Result: {result}")
                 else:
-                    st.warning("Please ask only about unit conversions.")
+                    st.warning("⚠️ Please ask only about unit conversions.")
             else:
-                st.warning("Please enter a conversion query.")
+                st.warning("⚠️ Please enter a conversion query.")
     
-    conversion_type = st.selectbox("Choose Conversion Type", [
+    conversion_type = st.radio("📌 Choose Conversion Type", [
         "Length Converter", "Weight Converter", "Temperature Converter", 
         "Time Converter", "Speed Converter", "Data Converter"
     ])
@@ -55,8 +55,8 @@ def main():
     
     result = ""  # Default value to prevent errors
     
-    choice = st.radio("Select Conversion", options[conversion_type])
-    value = st.number_input("Enter Value", min_value=0.0, format="%.4f")
+    choice = st.radio("🔽 Select Conversion", options[conversion_type])
+    value = st.number_input("✏️ Enter Value", min_value=0.0, format="%.4f")
     
     conversions = {
         "Kilometers to Miles": value * 0.621371,
@@ -82,23 +82,23 @@ def main():
     }
     
     if choice in conversions:
-        result = f"{value} {choice.split()[0]} is {conversions[choice]:.4f} {choice.split()[-1]}"
+        result = f"🎯 {value} {choice.split()[0]} = {conversions[choice]:.4f} {choice.split()[-1]}"
         st.success(result)
     
     if 'history' not in st.session_state:
         st.session_state['history'] = []
     
-    if st.button("Add to History") and result:
+    if st.button("💾 Add to History") and result:
         st.session_state['history'].append(result)
     
     if st.session_state['history']:
-        st.subheader("Conversion History")
+        st.subheader("📜 Conversion History")
         for i, entry in enumerate(st.session_state['history'], 1):
             st.write(f"{i}. {entry}")
     
-    if st.button("Clear History"):
+    if st.button("🗑️ Clear History"):
         st.session_state['history'] = []
-        st.success("History cleared!")
+        st.success("🧹 History cleared!")
     
 if __name__ == "__main__":
     main()
